@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from 'next/font/google'
 
 import './globals.css'
 
+import { ThemeProvider } from '@/providers/theme-provider'
+
+import Header from '@/components/common/header'
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin']
@@ -24,11 +28,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
+    <html suppressHydrationWarning lang='en'>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <div className='mt-24 min-h-[calc(100vh-96px)]'>{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   )
